@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import Register from './components/Register'
 import './App.css'
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <Register/>
+<Routes>
+<Route path="/register" element={<Register />} />
+</Routes>
     </>
   )
 }

@@ -4,9 +4,11 @@ const app = express();
 const morgan = require('morgan'); 
 const path = require('path');
 require('dotenv').config(); 
+const cors = require('cors');
 
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const Register = require('./src/routes/register')
 
 const { PORT } = process.env;
 
@@ -22,18 +24,18 @@ const sessionConfig = {
   },
 };
 
-// импорт роутов
-const homeRoutes = require('./src/routes/homeRoutes');
-
-
 app.use(express.static(path.resolve('public')));
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(session(sessionConfig));
+app.use(cors({
+  origin: true, //["http://localhost:5173"]
+  credentials: true }
+));
 
 //роутеры
-app.use('/', homeRoutes);
+app.use('/register', Register);
 
 // изменить ковычки на бектики
 app.listen(PORT, () => {
