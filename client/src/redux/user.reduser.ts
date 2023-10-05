@@ -1,6 +1,7 @@
 const initialState = {
 login: '',
-errMes: ''
+errMes: '',
+auth: false
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -8,9 +9,9 @@ const UserReducer = (state = initialState, action) => {
 
   switch (type) {
     case "REG_USER":
-      return { ...state, login: payload.login };
+      return { ...state, login: payload.login, auth: true };
     case "LOG_USER":
-      return { ...state, login: payload.login, errMes: payload.err };
+      return { ...state, login: payload.login, errMes: payload.err, auth: true  };
     default:
       return state;
   }
