@@ -15,12 +15,12 @@ router.post('/', async (req, res) => {
         if (oldUserLogin) {
             res.json({ err: 'Такой пользователь уже существует' });
         } else {
-        const hash = await bcrypt.hash(password, 10);
-        const user = await User.create({login, password: hash})
-        req.session.login = user.login;
-        req.session.save(() => {
-            res.json({ msg: 'Пользователь зарегистрирован', login: user.login });
-          });
+          const hash = await bcrypt.hash(password, 10);
+          const user = await User.create({login, password: hash})
+          req.session.login = user.login;
+          req.session.save(() => {
+              res.json({ msg: 'Пользователь зарегистрирован', login: user.login });
+            });
         }
     } catch (error) {
         console.log('error', error);

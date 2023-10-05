@@ -9,6 +9,8 @@ const cors = require('cors');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const Register = require('./src/routes/register')
+const Login = require("./src/routes/login")
+const Logout = require("./src/routes/logout")
 
 const { PORT } = process.env;
 
@@ -36,6 +38,8 @@ app.use(cors({
 
 //роутеры
 app.use('/register', Register);
+app.use('/login', Login);
+app.use('/logout', Logout);
 
 // изменить ковычки на бектики
 app.listen(PORT, () => {

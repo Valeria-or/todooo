@@ -1,44 +1,43 @@
-import React, { useState } from 'react'
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 
-export default function Register() {
-    const [reg, setReg] = useState({})
+export default function Login() {
+    const [login, setLogin] = useState({})
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+
     const [errText, setErrorText] = useState('');
 
-    function hendlerRegister (e) {
-        setReg((pre: string) => ({...pre, [e.target.name]:e.target.value}))
+    function hendlerLogin (e) {
+        setLogin((pre: string) => ({...pre, [e.target.name]:e.target.value}))
+        // setPassword((pre: string) => ({...pre, [e.target.name]:e.target.value}))
         
     }
 
     async function hendlerNewUser (values) {
         values.preventDefault()
         try {
-            const responce = await fetch('http://localhost:3000/register', {
+            const responce = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify(reg),
+                  body: JSON.stringify(login),
                   credentials: "include",
                 });
                 const data = await responce.json();
                 console.log(data);
                 if(data.msg){
-                  
-                  dispatch({type: 'REG_USER', payload: {login: data.login}})
-                  navigate("/")
+                    console.log("ok")
+                    dispatch({type: 'LOG_USER', payload: {login: data.login}})
+                    navigate("/")
                 } else {
-                  
-                  setErrorText(data.err)
+                    setErrorText(data.err)
                 }
-                
 
         } catch (error) {
-            console.log("register error", error);
+            console.log("login error", error);
         }
     }
 
@@ -52,7 +51,7 @@ export default function Register() {
             alt="Your Company"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Зарегайся мудила
+            Войди в пизду
           </h2>
         </div>
 
@@ -60,7 +59,7 @@ export default function Register() {
           <form className="space-y-6">
             <div>
               <label htmlFor="login" className="block text-sm font-medium leading-6 text-gray-900">
-                ВВеди свой ебучий логин
+                Логин свой введи придурок
               </label>
               <div className="mt-2">
                 <input
@@ -69,7 +68,7 @@ export default function Register() {
                   type="login"
                   autoComplete="login"
                   required
-                  onChange={hendlerRegister}
+                  onChange={hendlerLogin}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -78,7 +77,7 @@ export default function Register() {
             <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                  И придумай пароль
+                  И пароль
                 </label>
               </div>
               <div className="mt-2">
@@ -88,7 +87,7 @@ export default function Register() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  onChange={hendlerRegister}
+                  onChange={hendlerLogin}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -102,7 +101,7 @@ export default function Register() {
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Зарегаться
+                Войти!!!
               </button>
               <button onClick={() => navigate(-1)}
                 type="submit"
