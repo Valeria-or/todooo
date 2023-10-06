@@ -11,6 +11,7 @@ const FileStore = require('session-file-store')(session);
 const Register = require('./src/routes/register')
 const Login = require("./src/routes/login")
 const Logout = require("./src/routes/logout")
+const User = require('./src/routes/user')
 
 const { PORT } = process.env;
 
@@ -40,6 +41,8 @@ app.use(cors({
 app.use('/register', Register);
 app.use('/login', Login);
 app.use('/logout', Logout);
+app.use('/user', User);
+
 
 // изменить ковычки на бектики
 app.listen(PORT, () => {

@@ -9,12 +9,12 @@ export default function Register() {
     
     const [errText, setErrorText] = useState('');
 
-    function hendlerRegister (e) {
+    function hendlerRegister (e: React.ChangeEvent<HTMLInputElement>) {
         setReg((pre: string) => ({...pre, [e.target.name]:e.target.value}))
         
     }
 
-    async function hendlerNewUser (values) {
+    async function hendlerNewUser (values: React.MouseEvent<HTMLButtonElement, MouseEvent>)  {
         values.preventDefault()
         try {
             const responce = await fetch('http://localhost:3000/register', {

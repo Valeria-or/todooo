@@ -1,10 +1,10 @@
 const initialState = {
 login: '',
 errMes: '',
-auth: false
+auth: false,
 };
 
-const UserReducer = (state = initialState, action) => {
+const UserReducer = (state = initialState, action: any) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -12,6 +12,10 @@ const UserReducer = (state = initialState, action) => {
       return { ...state, login: payload.login, auth: true };
     case "LOG_USER":
       return { ...state, login: payload.login, errMes: payload.err, auth: true  };
+      case 'LOGOUT_USER':
+        return { ...state, auth: payload.auth};
+        case 'AUTH_USER':
+          return { ...state, auth: payload.auth};
     default:
       return state;
   }

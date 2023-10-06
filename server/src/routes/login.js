@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
             const checkPass = await bcrypt.compare(password, oldUserLogin.password)
             // const hash = await bcrypt.hash(password, 10);
             if(checkPass){
+                req.session.login = oldUserLogin.login;
                 req.session.save(() => {
                     res.json({ msg: 'Пользователь вошел', login });
                   });

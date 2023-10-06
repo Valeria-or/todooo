@@ -1,8 +1,6 @@
 require('@babel/register');
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const { User } = require('../../db/models');
 
 
 router.get("/", (req, res) => {

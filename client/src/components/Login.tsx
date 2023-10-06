@@ -9,13 +9,12 @@ export default function Login() {
 
     const [errText, setErrorText] = useState('');
 
-    function hendlerLogin (e) {
+    function hendlerLogin (e: React.ChangeEvent<HTMLInputElement>) {
         setLogin((pre: string) => ({...pre, [e.target.name]:e.target.value}))
-        // setPassword((pre: string) => ({...pre, [e.target.name]:e.target.value}))
         
     }
 
-    async function hendlerNewUser (values) {
+    async function hendlerNewUser (values: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         values.preventDefault()
         try {
             const responce = await fetch('http://localhost:3000/login', {
