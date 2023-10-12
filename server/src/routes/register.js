@@ -18,6 +18,7 @@ router.post('/', async (req, res) => {
           const hash = await bcrypt.hash(password, 10);
           const user = await User.create({login, password: hash})
           req.session.login = user.login;
+          req.session.auth = true;
           req.session.save(() => {
               res.json({ msg: 'Пользователь зарегистрирован', login: user.login });
             });

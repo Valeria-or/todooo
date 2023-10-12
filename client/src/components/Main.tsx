@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from './Modal';
 
 
 export default function Main() {
+
     const [notebook, setNotebook] = useState([])
     const [login, setLogin] = useState("")
+
+    const dispatch = useDispatch()
+
     const userLogin = useSelector((state) => state.UserReducer.login);
-    console.log("userLogin=>", userLogin)
+    const notebooks = useSelector((state) => state.NotebooksReducer.notebooks);
 
     useEffect(() => {
         void (async function fetchData() {
@@ -23,7 +27,8 @@ export default function Main() {
                   credentials: "include",
             });
             const result = await response.json();
-            setNotebook(result)  
+            dispatch({type: 'NOTEBOOKS', payload: {notebooks: result}})  
+            setNotebook(notebooks)
           } catch (error) {
             console.log(error);
           }
@@ -31,6 +36,7 @@ export default function Main() {
           
         })();
       }, [userLogin]);
+      
     
   return (
     <> <Modal/>

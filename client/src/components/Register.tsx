@@ -28,9 +28,8 @@ export default function Register() {
                 const data = await responce.json();
                 console.log(data);
                 if(data.msg){
-                  
                   dispatch({type: 'REG_USER', payload: {login: data.login}})
-                  navigate("/")
+                  navigate("/main")
                 } else {
                   
                   setErrorText(data.err)

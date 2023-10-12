@@ -26,7 +26,6 @@ export default function Login() {
                   credentials: "include",
                 });
                 const data = await responce.json();
-                console.log(data.login);
                 if(data.msg){
                     console.log("ok")
                     dispatch({type: 'LOG_USER', payload: {login: data.login}})
