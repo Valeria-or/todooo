@@ -19,8 +19,9 @@ router.post('/', async (req, res) => {
           const user = await User.create({login, password: hash})
           req.session.login = user.login;
           req.session.auth = true;
+          req.session.id =user.id;
           req.session.save(() => {
-              res.json({ msg: 'Пользователь зарегистрирован', login: user.login });
+              res.json({ msg: 'Пользователь зарегистрирован', login: user.login, auth: true });
             });
         }
     } catch (error) {

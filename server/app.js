@@ -13,6 +13,7 @@ const Login = require("./src/routes/login")
 const Logout = require("./src/routes/logout")
 const User = require('./src/routes/user')
 const Notebook = require("./src/routes/notebook")
+const OneNote = require('./src/routes/todos')
 
 const { PORT } = process.env;
 
@@ -44,6 +45,7 @@ app.use('/login', Login);
 app.use('/logout', Logout);
 app.use('/user', User);
 app.use('/notebook', Notebook);
+app.use('/oneNote', OneNote)
 
 
 // изменить ковычки на бектики

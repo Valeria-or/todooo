@@ -1,36 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
 
-export default function Modal() {
-    const [text, setText] = useState("")
-    const [open, setOpen] = useState(false)
+export default function OneNote() {
+    // const [text, setText] = useState("")
+    const [todos, setTodos] = useState([{}])
+    const [openOneNote, setOpenOneNote] = useState(false)
 
     const cancelButtonRef = useRef(null)
 
     const dispatch = useDispatch();
 
-    function hendlerPostText (e: React.ChangeEvent<HTMLInputElement>) {
-        setText((pre: string) => ({...pre, [e.target.name]:e.target.value}))
-    }
-    async function hendlerNewPost (values: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        values.preventDefault()
+    // function hendlerPostText (e: React.ChangeEvent<HTMLInputElement>) {
+    //     setText((pre: string) => ({...pre, [e.target.name]:e.target.value}))
+    // }
 
+    async function allTodos (values: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        values.preventDefault()
         try {
-            const responce = await fetch('http://localhost:3000/notebook', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(text),
+            const responce = await fetch('http://localhost:3000/oneNote', {
+                method: 'GET',
                   credentials: "include",
                 });
                 const data = await responce.json();
-                if(data.msg){
-                    dispatch({type: 'NOTEBOOKS', payload: {notebooks: data.allNotebooks}})
-                    setOpen(false)
+                if(!data.error){
+                    setTodos(data)
+                    // dispatch({type: 'NOTEBOOKS', payload: {notebooks: data.allNotebooks}})
+                    // setOpenOneNote(false)
                 } 
         } catch (error) {
             console.log("login error", error);
@@ -41,13 +40,13 @@ export default function Modal() {
     <>
     <button
           type="button"
-          className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-          onClick={() => setOpen(true)}
+          className="inline-flex w-full justify-center rounded-md bg-green-400 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
+          onClick={() => setOpenOneNote(true)}
       >
-          создать новый блокнот
+          смотреть тудушки
       </button>
-    <Transition.Root show={open} as={Fragment}>
-              <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+    <Transition.Root show={openOneNote} as={Fragment}>
+              <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpenOneNote}>
                   <Transition.Child
                       as={Fragment}
                       enter="ease-out duration-300"
@@ -76,42 +75,28 @@ export default function Modal() {
                                       <div className="sm:flex sm:items-start">
                                           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                               <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                  Новый пост
+                                                  Все тудушки
                                               </Dialog.Title>
                                               <div className="mt-2">
-                                                  <form className="space-y-6">
-                                                      <div>
-                                                          <label htmlFor="login" className="block text-sm font-medium leading-6 text-gray-900">
-                                                              Напиши чо нибудь
-                                                          </label>
-                                                          <div className="mt-2">
-                                                              <input
-                                                                  id="login"
-                                                                  name="text"
-                                                                  type="login"
-                                                                  autoComplete="login"
-                                                                  required
-                                                                  onChange={hendlerPostText}
-                                                                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                                                          </div>
-                                                      </div>
-                                                  </form>
+                                                {todos.map((todo) => 
+                                                    <div key={todo.id}>{todo.text}</div>
+                                                )}
                                               </div>
                                           </div>
                                       </div>
                                   </div>
                                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                      <button
+                                      {/* <button
                                           type="button"
                                           className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                                           onClick={hendlerNewPost}
                                       >
                                           пост
-                                      </button>
+                                      </button> */}
                                       <button
                                           type="button"
                                           className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                          onClick={() => setOpen(false)}
+                                          onClick={() => setOpenOneNote(false)}
                                           ref={cancelButtonRef}
                                       >
                                           выйти

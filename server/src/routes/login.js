@@ -7,19 +7,17 @@ const { User } = require('../../db/models');
 
 
 router.post('/', async (req, res) => {
-    console.log("login ====> ", req.body);
     const {login, password} = req.body;
     try {
-        console.log('try');
         const oldUserLogin = await User.findOne({where: {login}})
         if (oldUserLogin) {
             const checkPass = await bcrypt.compare(password, oldUserLogin.password)
-            // const hash = await bcrypt.hash(password, 10);
             if(checkPass){
                 req.session.login = oldUserLogin.login;
                 req.session.auth = true;
+                req.session.id = oldUserLogin.id;
                 req.session.save(() => {
-                    res.json({ msg: 'Пользователь вошел', login });
+                    res.json({ msg: 'Пользователь вошел', login, auth: true });
                   });
             } else {
                 res.json({ err: "неверный пароль"})

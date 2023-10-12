@@ -3,10 +3,9 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    // console.log("userGet ===>" , req.session)
     try {
-        const login = req.session.login;
-        res.json(login)
+        const auth = req.session.auth;
+        res.json(auth)
     } catch (error) {
         console.log(err)
     }
