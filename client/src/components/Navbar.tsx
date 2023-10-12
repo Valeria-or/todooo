@@ -18,8 +18,9 @@ export default function Home() {
                 credentials: 'include',
             })
             const data = await response.json();
+            console.log("data", data)
             if (data){
-                dispatch({type: 'AUTH_USER', payload: {auth: true}})
+                dispatch({type: 'AUTH_USER', payload: {auth: true, login: data}})
             }
         } catch {
             dispatch({type: 'AUTH_USER', payload: {auth: false}})

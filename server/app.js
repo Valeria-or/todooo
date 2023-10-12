@@ -12,6 +12,7 @@ const Register = require('./src/routes/register')
 const Login = require("./src/routes/login")
 const Logout = require("./src/routes/logout")
 const User = require('./src/routes/user')
+const Notebook = require("./src/routes/notebook")
 
 const { PORT } = process.env;
 
@@ -42,6 +43,7 @@ app.use('/register', Register);
 app.use('/login', Login);
 app.use('/logout', Logout);
 app.use('/user', User);
+app.use('/notebook', Notebook);
 
 
 // изменить ковычки на бектики

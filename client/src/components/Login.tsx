@@ -26,11 +26,11 @@ export default function Login() {
                   credentials: "include",
                 });
                 const data = await responce.json();
-                console.log(data);
+                console.log(data.login);
                 if(data.msg){
                     console.log("ok")
                     dispatch({type: 'LOG_USER', payload: {login: data.login}})
-                    navigate("/")
+                    navigate("/main")
                 } else {
                     setErrorText(data.err)
                 }
