@@ -27,4 +27,14 @@ router.post('/newTodo', async (req, res) => {
     }
 })
 
+router.delete('/deleteNote', async (req, res) => {
+    try {
+        const {id} = req.body;
+        const note = await Notebook.destroy({where: {id}})
+        res.json({msg: 'удален'})
+    } catch (error) {
+        console.log('error', error);
+    }
+  })
+
 module.exports = router

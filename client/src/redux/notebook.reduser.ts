@@ -10,6 +10,8 @@ const initialState = {
           return { ...state, notebooks: payload.notebooks };
         default:
           return state;
+          case 'DELETE':
+            return {...state, notebooks: state.notebooks.filter((e) => e.id !== payload)}
       }
     };
     

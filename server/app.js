@@ -38,6 +38,7 @@ app.use(cors({
   origin: true, //["http://localhost:5173"]
   credentials: true }
 ));
+app.options('*', cors());
 
 //роутеры
 app.use('/register', Register);

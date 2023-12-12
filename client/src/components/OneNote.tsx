@@ -6,17 +6,13 @@ import { Dialog, Transition } from '@headlessui/react'
 
 
 export default function OneNote() {
-    // const [text, setText] = useState("")
+
     const [todos, setTodos] = useState([{}])
     const [openOneNote, setOpenOneNote] = useState(false)
 
     const cancelButtonRef = useRef(null)
 
     const dispatch = useDispatch();
-
-    // function hendlerPostText (e: React.ChangeEvent<HTMLInputElement>) {
-    //     setText((pre: string) => ({...pre, [e.target.name]:e.target.value}))
-    // }
 
     async function allTodos (values: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         values.preventDefault()
@@ -28,8 +24,6 @@ export default function OneNote() {
                 const data = await responce.json();
                 if(!data.error){
                     setTodos(data)
-                    // dispatch({type: 'NOTEBOOKS', payload: {notebooks: data.allNotebooks}})
-                    // setOpenOneNote(false)
                 } 
         } catch (error) {
             console.log("login error", error);
@@ -38,7 +32,7 @@ export default function OneNote() {
     
   return (
     <>
-    <button
+        <button
           type="button"
           className="inline-flex w-full justify-center rounded-md bg-green-400 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
           onClick={() => setOpenOneNote(true)}
