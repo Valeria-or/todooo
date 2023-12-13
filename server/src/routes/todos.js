@@ -5,10 +5,10 @@ const { User, Notebook, Todo } = require('../../db/models');
 const { async } = require('regenerator-runtime');
 const { log } = require('console');
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const notebokId = req.params;
-        const todos = await Todo.findAll({where: {notebook_id: notebokId}})
+        const {id}= req.body;
+        const todos = await Todo.findAll({where: {notebook_id: id}})
         res.json(todos)
     } catch (error) {
         console.log(error);
@@ -16,12 +16,11 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/newTodo', async (req, res) => {
-    console.log(req.params);
     try {
-        const notebokId = req.params;
-        const {text} = req.body;
-        const todo = await Todo.create( {notebook_id: notebokId, text});
-        res.json(msg, 'todo was created')
+        console.log(req.body)
+        const {todo, id} = req.body;
+        const NewTodo = await Todo.create( {notebook_id: id.id, text: todo});
+        res.json({msg: 'todo was created'})
     } catch (error) {
         console.log(error);
     }

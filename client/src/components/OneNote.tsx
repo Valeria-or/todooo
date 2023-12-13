@@ -3,32 +3,47 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import CreateTodo from './CreateTodo';
 
 
-export default function OneNote() {
+export default function OneNote(id: number) {
 
-    const [todos, setTodos] = useState([{}])
+    const todo = useSelector((state) => state.TodosReducer.todos);
+    console.log(todo)
+
+    const [newTodo, setNewTodo] = useState()
+    const [todos, setTodos] = useState([])
+    console.log(todos)
     const [openOneNote, setOpenOneNote] = useState(false)
 
     const cancelButtonRef = useRef(null)
 
     const dispatch = useDispatch();
 
-    async function allTodos (values: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        values.preventDefault()
-        try {
-            const responce = await fetch('http://localhost:3000/oneNote', {
-                method: 'GET',
-                  credentials: "include",
-                });
-                const data = await responce.json();
-                if(!data.error){
-                    setTodos(data)
-                } 
-        } catch (error) {
-            console.log("login error", error);
-        }
-    }
+    useEffect(() => {
+        void (async function fetchData() {
+            try {
+                const responce = await fetch('http://localhost:3000/oneNote', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({"id": id.id}),
+                      credentials: "include",
+                    });
+                    const data = await responce.json();
+                    console.log("dataaaaa", data)
+                    if(!data.error){
+                        setTodos(data)
+                    }
+                     dispatch({type: 'NEWTODOS', payload: data})
+            } catch (error) {
+                console.log("todo error", error);
+            }
+        })();
+      }, []);
+
+    
     
   return (
     <>
@@ -71,11 +86,13 @@ export default function OneNote() {
                                               <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
                                                   Все тудушки
                                               </Dialog.Title>
+                                              <CreateTodo id={id.id} onChange={() => setNewTodo()}/>
+                                              {todos &&
                                               <div className="mt-2">
-                                                {todos.map((todo) => 
-                                                    <div key={todo.id}>{todo.text}</div>
+                                                {todos.map((el) => 
+                                                    <div key={el.id}>{el.text}</div>
                                                 )}
-                                              </div>
+                                              </div>}
                                           </div>
                                       </div>
                                   </div>

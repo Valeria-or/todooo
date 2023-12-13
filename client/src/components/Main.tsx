@@ -55,14 +55,15 @@ export default function Main() {
     {notebook &&
     <div>
         {notebook.map((el) => 
-        <><div key={el.id}>{el.title} <OneNote /></div><button
+        <><div key={el.id}>{el.title} <OneNote id={el.id}/></div><button
             type="button"
             id={el.id}
             className="inline-flex w-full justify-center rounded-md bg-red-600 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
             onClick={() => deleteNote(el.id)}
           >
             X
-          </button></>
+          </button>
+          </>
     )}
     </div>}
     </>
