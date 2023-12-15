@@ -17,10 +17,9 @@ router.post('/', async (req, res) => {
 
 router.post('/newTodo', async (req, res) => {
     try {
-        console.log(req.body)
-        const {todo, id} = req.body;
-        const NewTodo = await Todo.create( {notebook_id: id.id, text: todo});
-        res.json({msg: 'todo was created'})
+        const {newTodo, id} = req.body;
+        const createNewTodo = await Todo.create( {notebook_id: id.id, text: newTodo});
+        res.json(createNewTodo)
     } catch (error) {
         console.log(error);
     }

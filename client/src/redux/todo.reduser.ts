@@ -6,9 +6,7 @@ const TodosReducer = (state = initialState, action: any) => {
     const { type, payload } = action;
     
     switch (type) {
-      case "NEWTODOS":
-         return { ...state, todos: payload };
-        case "CREATETODO":
+        case "ALLTODOS":
          return { ...state, todos: payload };
         default:
           return state;
