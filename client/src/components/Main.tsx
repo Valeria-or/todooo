@@ -13,6 +13,8 @@ export default function Main() {
     const notebooks = useSelector((state) => state.NotebooksReducer.notebooks);
     const user = useSelector((state) => state.UserReducer.login) 
 
+    const allNotebooks = useSelector((state) => state.NotebooksReducer.notebooks);
+
     useEffect(() => {
         void (async function fetchData() {
                 try {
@@ -21,8 +23,13 @@ export default function Main() {
                   credentials: "include",
             });
             const result = await response.json();
+            console.log(result)
             if (result){
               setNotebook(result)
+              dispatch({
+                type: "NOTEBOOKS",
+                payload: { notebooks: result },
+              });
             }
             else {
               setNotebook(notebooks)
@@ -31,7 +38,7 @@ export default function Main() {
             console.log(error);
           }
         })();
-      }, [user, notebooks]);
+      }, [user]);
       
       async function deleteNote (id: object) {
         try {
@@ -49,9 +56,38 @@ export default function Main() {
             console.log("delete error", error);
         }
     }
-    
+
+    const [inputFind, setInputFind] = useState({"notebook": ""})
+
+
+  function hendlerFindNotebook(e: React.ChangeEvent<HTMLInputElement>) {
+    setInputFind((pre: string) => ({ ...pre, [e.target.name]: e.target.value }));
+    const findText = e.target.value
+    console.log(allNotebooks)
+    const result = allNotebooks.filter((el)=> el.title.includes(findText))
+    console.log("rrrr", result)
+    setNotebook(result)
+  }
+    console.log(notebook)
   return (
     <> <Modal/>
+     <input
+        id="login"
+        name="notebook"
+        type="text"
+        autoComplete="login"
+        required
+        value={inputFind.notebook}
+        onChange={hendlerFindNotebook}
+        className="inline-flex rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      />
+      <button
+                    type="button"
+                    className="inline-flex w-full justify-center rounded-md bg-green-400 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
+                >
+                Найти
+                </button>
+                <br/>
     {notebook &&
     <div>
         {notebook.map((el) => 

@@ -8,6 +8,8 @@ const initialState = {
       switch (type) {
         case "NOTEBOOKS":
           return { ...state, notebooks: payload.notebooks };
+        // case "FINDNOTEBOOKS":
+        //    return { ...state, notebooks: payload.notebooks };
         default:
           return state;
           case 'DELETE':

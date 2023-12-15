@@ -24,6 +24,16 @@ router.post('/newTodo', async (req, res) => {
         console.log(error);
     }
 })
+router.delete('/deleteTodo', async (req, res) => {
+    try {
+        console.log(req.body)
+        const {id} = req.body;
+        const createNewTodo = await Todo.destroy({where: {id}})
+        res.json(createNewTodo)
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 router.delete('/deleteNote', async (req, res) => {
     try {

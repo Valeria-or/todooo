@@ -55,10 +55,38 @@ export default function OneNote(id: number) {
             
             const data = await responce.json()
             console.log(data);
-            setRestart(true)
+            if(restart){
+                setRestart(false);
+            } else {
+                 setRestart(true);
+            }
+            
+           
             setNewTodo({'todo': ''})
         } catch (error) {
             console.log("newTodo error", error);
+        }
+    }
+    async function deleteTodo( id) {
+        try {
+            const responce = await fetch('http://localhost:3000/oneNote/deleteTodo', {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({"id": id}),
+                credentials: "include",
+            });
+            
+            const data = await responce.json()
+            console.log(data);
+            if(restart){
+                setRestart(false);
+            } else {
+                 setRestart(true);
+            }
+        } catch (error) {
+            console.log("deleteTodo error", error);
         }
     }
 
@@ -137,7 +165,13 @@ export default function OneNote(id: number) {
                                                     {allTodos &&
                                                         <div className="mt-2">
                                                             {allTodos.map((el) =>
-                                                                <div key={el.id}>{el.text}</div>
+                                                                <><div className="inline-flex" key={el.id}>{el.text}</div><button
+                                                                key={`${el.id}buttonDelete`}    
+                                                                type="button"
+                                                                    className="inline-flex w-full justify-center rounded-md bg-green-400 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
+                                                                    onClick={() => deleteTodo(el.id)}>
+                                                                    удалить
+                                                                </button><br/></>
                                                             )}
                                                         </div>}
                                                 </div>
