@@ -36,8 +36,10 @@ router.delete('/deleteTodo', async (req, res) => {
 })
 
 router.delete('/deleteNote', async (req, res) => {
+    console.log('req bodyyyyyyyy', req.body);
     try {
         const {id} = req.body;
+        const todos = await Todo.destroy({where: {notebook_id: id}})
         const note = await Notebook.destroy({where: {id}})
         res.json({msg: 'удален'})
     } catch (error) {

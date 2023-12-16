@@ -10,6 +10,8 @@ export default function Main() {
 
     const dispatch = useDispatch()
 
+    const [changeTodos, setChangeTodos] = useState(false)
+
     const notebooks = useSelector((state) => state.NotebooksReducer.notebooks);
     const user = useSelector((state) => state.UserReducer.login) 
 
@@ -23,7 +25,6 @@ export default function Main() {
                   credentials: "include",
             });
             const result = await response.json();
-            console.log(result)
             if (result){
               setNotebook(result)
               dispatch({
@@ -38,7 +39,7 @@ export default function Main() {
             console.log(error);
           }
         })();
-      }, [user]);
+      }, [user, changeTodos]);
       
       async function deleteNote (id: object) {
         try {
@@ -52,6 +53,11 @@ export default function Main() {
             });
             const data = await responce.json();
             dispatch({type: 'DELETE', payload: {id: id}})
+            if (changeTodos) {
+              setChangeTodos(false)
+            } else {
+              setChangeTodos(true)
+            }
         } catch (error) {
             console.log("delete error", error);
         }
@@ -63,12 +69,17 @@ export default function Main() {
   function hendlerFindNotebook(e: React.ChangeEvent<HTMLInputElement>) {
     setInputFind((pre: string) => ({ ...pre, [e.target.name]: e.target.value }));
     const findText = e.target.value
-    console.log(allNotebooks)
-    const result = allNotebooks.filter((el)=> el.title.includes(findText))
-    console.log("rrrr", result)
-    setNotebook(result)
+    if (findText){
+      dispatch({type: 'FINDNOTEBOOK', payload: {word: findText}})
+    } else {
+      if (changeTodos) {
+        setChangeTodos(false)
+      } else {
+        setChangeTodos(true)
+      }
+    }
   }
-    console.log(notebook)
+
   return (
     <> <Modal/>
      <input
@@ -81,16 +92,9 @@ export default function Main() {
         onChange={hendlerFindNotebook}
         className="inline-flex rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
-      <button
-                    type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-green-400 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
-                >
-                Найти
-                </button>
-                <br/>
-    {notebook &&
+    {allNotebooks &&
     <div>
-        {notebook.map((el) => 
+        {allNotebooks.map((el) => 
         <><div key={el.id}>{el.title} <OneNote id={el.id}/></div><button
             type="button"
             id={el.id}

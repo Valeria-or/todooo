@@ -7,9 +7,9 @@ const initialState = {
     
       switch (type) {
         case "NOTEBOOKS":
-          return { ...state, notebooks: payload.notebooks };
-        // case "FINDNOTEBOOKS":
-        //    return { ...state, notebooks: payload.notebooks };
+          return { ...state, notebooks: payload.notebooks};
+          case 'FINDNOTEBOOK': 
+          return { ...state, notebooks: state.notebooks.filter((el)=> el.title.includes(payload.word))}
         default:
           return state;
           case 'DELETE':

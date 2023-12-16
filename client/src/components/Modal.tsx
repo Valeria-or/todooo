@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -30,7 +30,6 @@ export default function Modal() {
         credentials: "include",
       });
       const data = await responce.json();
-      console.log(data)
       if (data.msg) {
         dispatch({
           type: "NOTEBOOKS",
