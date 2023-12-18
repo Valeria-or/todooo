@@ -28,7 +28,7 @@ export default function Login() {
                 const data = await responce.json();
                 if(data.msg){
                     console.log("ok")
-                    dispatch({type: 'LOG_USER', payload: {login: data.login}})
+                    dispatch({type: 'LOG_USER', payload: {login: data.login, photo: data.photo}})
                     navigate("/main")
                 } else {
                     setErrorText(data.err)

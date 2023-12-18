@@ -2,6 +2,7 @@ const initialState = {
 login: '',
 errMes: '',
 auth: false,
+photo: ''
 };
 
 const UserReducer = (state = initialState, action: any) => {
@@ -11,7 +12,7 @@ const UserReducer = (state = initialState, action: any) => {
     case "REG_USER":
       return { ...state, login: payload.login, auth: true };
     case "LOG_USER":
-      return { ...state, login: payload.login, errMes: payload.err, auth: true  };
+      return { ...state, login: payload.login, photo: payload.photo, errMes: payload.err, auth: true  };
       case 'LOGOUT_USER':
         return { ...state, auth: payload.auth};
         case 'AUTH_USER':

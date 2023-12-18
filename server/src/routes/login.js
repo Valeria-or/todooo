@@ -12,12 +12,13 @@ router.post('/', async (req, res) => {
         const oldUserLogin = await User.findOne({where: {login}})
         if (oldUserLogin) {
             const checkPass = await bcrypt.compare(password, oldUserLogin.password)
+            const photo =  oldUserLogin.photo
             if(checkPass){
                 req.session.login = oldUserLogin.login;
                 req.session.auth = true;
                 req.session.id = oldUserLogin.id;
                 req.session.save(() => {
-                    res.json({ msg: 'Пользователь вошел', login, auth: true });
+                    res.json({ msg: 'Пользователь вошел', login, photo, auth: true });
                   });
             } else {
                 res.json({ err: "неверный пароль"})

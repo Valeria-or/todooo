@@ -1,10 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Lk() {
   const [file, setFile] = useState();
 const [photoUser, setPhotoUser] = useState({"photo": ''})
+const [restart, setRestart] = useState(false)
+const dispath = useDispatch()
+const avatar = useSelector((state) => state.UserReducer.photo)
+console.log('avatar', avatar);
+
 
   const upload = (): void => {
     const formData = new FormData();
@@ -14,10 +19,9 @@ const [photoUser, setPhotoUser] = useState({"photo": ''})
       .patch("http://localhost:3000/upload/lkPhoto", formData)
       .then((res) => {})
       .catch((er) => console.log(er));
+      dispath({type: 'LOG_USER', payload: {photo: photoUser}})
+      setRestart(!restart)
   };
-
-
-  
 
   useEffect(() => {
     void (async function fetchData() {
@@ -27,12 +31,13 @@ const [photoUser, setPhotoUser] = useState({"photo": ''})
              credentials: "include"
             }) 
             const result = await response.json()
+            dispath({type: 'LOG_USER', payload: {photo: result}})
             setPhotoUser(result)
          } catch (error) {
              console.log(error)
          }
     })();
-}, []);
+}, [restart]);
 
 console.log(photoUser)
   return (
@@ -45,7 +50,7 @@ console.log(photoUser)
       <button type="button" onClick={upload}>
         Загрузить картинку
       </button>
-      <div><img src={`http://localhost:3000/data/uploads${photoUser.photo}`}></img></div>
+      <div><img src={`http://localhost:3000/data/uploads/${avatar.photo}`}></img></div>
     </form>
   );
 }

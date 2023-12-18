@@ -23,14 +23,12 @@ const storage = multer.diskStorage({
   })
 
 uploadRouter.patch('/lkPhoto', upload.single('file'), async (req, res) => {
-    if(req.file === "undefined"){
     const imgName = `/${req.file.filename}`
+    console.log('imgName', imgName);
     const id = req.body.id
-    console.log(id)
     const userLogin = await User.findOne({where: {id}})
     const updateCompUsimg = await User.update({ photo: imgName}, { where: { id: userLogin.id } });
     res.json(updateCompUsimg);}
-  
-  });
+  );
 
 module.exports = uploadRouter;

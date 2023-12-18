@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "./Modal";
 import OneNote from "./OneNote";
-import { useNavigate } from "react-router-dom";
-
 export default function Main() {
   const [notebook, setNotebook] = useState([]);
 
   const dispatch = useDispatch();
 
   const [changeTodos, setChangeTodos] = useState(false);
+  const [newText, setNewText] = useState('')
 
   const notebooks = useSelector((state) => state.NotebooksReducer.notebooks);
   const user = useSelector((state) => state.UserReducer.login);
@@ -83,6 +82,23 @@ export default function Main() {
     }
   }
 
+  async function changeNote(id: object) {
+    try {
+      const responce = await fetch('http://localhost:3000/notebook/edit', {
+        method: 'PUT',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id, text: newText }),
+        credentials: "include",
+      })
+      const data = await responce.json()
+      setChangeTodos(!changeTodos)
+    } catch (error) {
+      console.log("change error", error);
+    }
+  }
+
   return (
     <>
       {" "}
@@ -112,6 +128,26 @@ export default function Main() {
               >
                 X
               </button>
+              <div>
+              <input
+        id="changeNote"
+        name="changeNote"
+        type="text"
+        autoComplete="changeNote"
+        required
+        value={newText}
+        onChange={(e) => setNewText(e.target.value)}
+        className="inline-flex rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+      />
+              <button
+                type="button"
+                id={el.id}
+                className="inline-flex w-full justify-center rounded-md bg-yellow-300 px-1 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-1 sm:w-auto"
+                onClick={() => changeNote(el.id)}
+              >
+                изменить
+              </button>
+              </div>
             </>
           ))}
         </div>

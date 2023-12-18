@@ -27,4 +27,15 @@ router.post('/', async (req, res) => {
     }
   })
 
+  router.put('/edit', async (req, res) => {
+    console.log('booooooody', req.body);
+    const {id, text} = req.body
+    try {
+        const notebook = await Notebook.update({title: text}, { where: {id} })
+        res.json(notebook)
+    } catch (error) {
+        console.log('error', error);
+    }
+  })
+
 module.exports = router;
