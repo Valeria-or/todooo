@@ -90,7 +90,21 @@ export default function OneNote(id: number) {
         }
     }
 
-    
+    const [findTodos, setFindTodos] = useState({"findInput": ''})
+
+    function hendlerFindTodos(e: React.ChangeEvent<HTMLInputElement>) {
+        setFindTodos((pre: string) => ({ ...pre, [e.target.name]: e.target.value }));
+        const findText = e.target.value
+        if (findText){
+          dispatch({type: 'FINDTODO', payload: {word: findText}})
+        } else {
+          if(restart){
+                setRestart(false);
+            } else {
+                 setRestart(true);
+            }
+        }
+      }
     
   return (
             <>
@@ -162,6 +176,17 @@ export default function OneNote(id: number) {
                                                             Дроп
                                                         </button>
                                                     </div>
+                                                    <input
+                                                                id="login"
+                                                                name="findInput"
+                                                                type="text"
+                                                                autoComplete="login"
+                                                                required
+                                                                placeholder='поиск'
+                                                                onChange={hendlerFindTodos}
+                                                                value={findTodos.findInput}
+                                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            />
                                                     {allTodos &&
                                                         <div className="mt-2">
                                                             {allTodos.map((el) =>

@@ -44,13 +44,18 @@ export default function Home() {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       {authUser ? (
-               <button
-               type="submit"
-               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-               onClick={handleLogout}
-             >
-                Выйти
-             </button>
+               <><button
+          type="submit"
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={handleLogout}
+        >
+          Выйти
+        </button><button onClick={() => navigate("/lk")}
+          type="submit"
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+            личный кабинет
+          </button></>
 
       ) : (
         <div style={{ display: 'flex', flexDirection: 'row' }}>

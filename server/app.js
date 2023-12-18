@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const path = require('path');
 require('dotenv').config(); 
 const cors = require('cors');
+const multer  = require('multer')
 
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
@@ -13,7 +14,8 @@ const Login = require("./src/routes/login")
 const Logout = require("./src/routes/logout")
 const User = require('./src/routes/user')
 const Notebook = require("./src/routes/notebook")
-const OneNote = require('./src/routes/todos')
+const OneNote = require('./src/routes/todos');
+const uploadRouter = require('./src/routes/lk');
 
 const { PORT } = process.env;
 
@@ -47,6 +49,7 @@ app.use('/logout', Logout);
 app.use('/user', User);
 app.use('/notebook', Notebook);
 app.use('/oneNote', OneNote)
+app.use("/upload", uploadRouter);
 
 
 // изменить ковычки на бектики

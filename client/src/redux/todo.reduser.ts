@@ -8,6 +8,8 @@ const TodosReducer = (state = initialState, action: any) => {
     switch (type) {
         case "ALLTODOS":
          return { ...state, todos: payload };
+        case 'FINDTODO': 
+          return { ...state, todos: state.todos.filter((el)=> el.text.includes(payload.word))}
         default:
           return state;
     }
